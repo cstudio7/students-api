@@ -14,7 +14,7 @@ type Student struct {
 	School    string
 }
 
-type CommentService interface {
+type StudentService interface {
 	GetAllStudents() ([]Student, error)
 	GetStudentByID(ID uint) (Student, error)
 	GetStudentsBySchool(school string) ([]Student, error)

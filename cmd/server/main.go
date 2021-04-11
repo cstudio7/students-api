@@ -5,17 +5,20 @@ import (
 	"net/http"
 	"students-api/internal/database"
 	internalHttp "students-api/internal/http"
+	"students-api/internal/services/student"
 )
 
 func Run() error {
 	fmt.Println("Running App")
 
-	_, err := database.InitDatabase()
+	db, err := database.InitDatabase()
 	if err != nil {
 		return err
 	}
 
-	handler := internalHttp.NewHandler()
+	studentService := student.NewService(db)
+
+	handler := internalHttp.NewHandler(studentService)
 	handler.InitRoutes()
 	if err := http.ListenAndServe(":9000", handler.Router); err != nil {
 		return err
