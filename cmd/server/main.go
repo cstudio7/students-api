@@ -16,6 +16,11 @@ func Run() error {
 		return err
 	}
 
+	err = database.MigrateDB(db)
+	if err != nil {
+		return err
+	}
+
 	studentService := student.NewService(db)
 
 	handler := internalHttp.NewHandler(studentService)

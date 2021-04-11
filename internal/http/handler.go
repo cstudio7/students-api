@@ -2,7 +2,6 @@ package http
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 	"students-api/internal/services/student"
@@ -30,7 +29,11 @@ func (h *Handler) InitRoutes() {
 	h.Router.HandleFunc("/api/students/{id}", h.UpdateStudent).Methods("PUT")
 	h.Router.HandleFunc("/api/students/{id}", h.DeleteStudent).Methods("DELETE")
 	h.Router.HandleFunc("/api/status", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Status Up!")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(Response{Message: "Status Up!"}); err != nil {
+			panic(err)
+		}
 	})
 }
 
