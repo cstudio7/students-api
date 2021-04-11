@@ -3,11 +3,18 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"students-api/internal/database"
 	internalHttp "students-api/internal/http"
 )
 
 func Run() error {
 	fmt.Println("Running App")
+
+	_, err := database.InitDatabase()
+	if err != nil {
+		return err
+	}
+
 	handler := internalHttp.NewHandler()
 	handler.InitRoutes()
 	if err := http.ListenAndServe(":9000", handler.Router); err != nil {
